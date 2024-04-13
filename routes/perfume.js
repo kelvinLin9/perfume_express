@@ -49,12 +49,11 @@ router.patch('/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
   try {
-    const perfume = await Perfume.findById(req.params.id);
-    if (!perfume) {
+    const deletedPerfume = await Perfume.findByIdAndDelete(req.params.id);
+    if (!deletedPerfume) {
       return res.status(404).json({ message: 'Perfume not found' });
     }
-    await perfume.remove();
-    res.json({ message: 'Deleted Perfume' });
+    res.json({ message: 'Deleted Perfume', perfume: deletedPerfume });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
